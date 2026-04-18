@@ -1,0 +1,23 @@
+Prompt:
+
+Write a complete Python script for Blender 5.0 that generates a scene, animates a physics simulation, and manually exports the result to an X3D file without using the built-in io_scene_x3d add-on (to avoid ModuleNotFound errors).
+
+1. Scene Setup:
+Mirror Ball: Create a sphere with a high-metallic, low-roughness "Chrome" material.
+Floor: Create a ground plane with a dark material and physics collision enabled.
+Sheet: Create a subdivided grid (approx 45x45) placed above the ball with a Pure White material. Add a Cloth physics modifier to it.
+Lighting: Add three Spotlights arranged around the ball, colored Red, Green, and Blue, all tracking the center of the ball.
+Camera: Add a camera viewing the scene.
+
+2. Animation & Physics:
+Use a Hook Modifier controlled by an Empty object to manipulate the sheet.
+Frames 1-100: The sheet should settle and drape over the ball.
+Frames 100-160: The Hook should pull the sheet up and away from the ball.
+Frame 165: The Hook strength should drop to 0, allowing the sheet to fall and crumble on the floor.
+API Compliance: Ensure the script handles the Blender 5.0/4.2+ API change where use_self_collision is located under collision_settings. Also, prevent DeprecationWarning errors by checking if material.use_nodes is already True before setting it.
+
+3. Custom X3D Export:
+Write a function to manually generate an .x3d file to the temporary directory.   Use Physically Based Rendering and Export X3D version 4.0, with possible Sunrize/X_ITE Material Extensions.
+Baking: The exporter must bake the vertex animation of the sheet frame-by-frame into an X3D <CoordinateInterpolator> node so the animation plays natively in X3D viewers.
+Visuals: Ensure all <IndexedFaceSet> nodes in the X3D file have creaseAngle="3.14159" for smooth shading.
+Cleanup: Only export the meshes (Ball, Floor, Sheet) and Lights. Do not export the Hook/Empty helper object.`
